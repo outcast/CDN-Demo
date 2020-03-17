@@ -2,15 +2,15 @@
 ---
 Author: James Jones <jam.jones@nginx.com>
 
-## Usage {#usage}
+## Usage
 
-### Prerequisites {#prerequisites}
+### Prerequisites
 - terraform
 - ansbile
 - Nginx Plus repo access cert and key
 - Digital Ocean Account with a ssh key imported
 
-### Setup {#setup}
+### Setup
 1. Clone repo
 2. Copy your Nginx repo access cert and key to './certs'
 3. In './mirror-origin/data.tf' add the key name to `data "digitalocean_ssh_key" "mysshkey"`.
@@ -25,8 +25,8 @@ Author: James Jones <jam.jones@nginx.com>
 4. mkdir ~/.private
 5. Create a file '~/.private/do_token' with mode '0600' and put your Digital Ocean token in it.
 
-### To Deploy {#deploy}
+### To Deploy
   `./deploy.sh`
 
-### To Destroy {#destroy}
+### To Destroy
   `./destroy.sh`
