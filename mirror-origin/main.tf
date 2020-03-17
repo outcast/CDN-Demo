@@ -1,14 +1,7 @@
-variable "do_token" {}
-
-#configure DigitalOcean Provider
-provider "digitalocean" {
-  token = var.do_token
-}
-
 resource "digitalocean_volume" "mirror-storage" {
   region                  = "nyc1"
   name                    = "mirror-storage"
-  size                    = 100
+  size                    = 500
   initial_filesystem_type = "ext4"
   description             = "volume used for storing apt mirror"
 }
@@ -19,6 +12,7 @@ resource "digitalocean_droplet" "mirror-origin" {
   name   = "mirror-origin"
   region = "nyc1"
   size   = "s-1vcpu-1gb"
+  ssh_keys = [data.digitalocean_ssh_key.mysshkey.id]
 }
 
 resource "digitalocean_volume_attachment" "mirror-origin-volume" {
