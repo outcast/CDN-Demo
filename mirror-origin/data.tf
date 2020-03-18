@@ -3,7 +3,7 @@ data "digitalocean_ssh_key" "mysshkey" {
 }
 
 data "template_file" "mirror_origin_host" {
-  template = "${file("../templates/ansible-mirror-origin.cfg")}"
+  template = "${file("../templates/ansible-mirror-origin.conf")}"
   depends_on = [
     digitalocean_droplet.mirror-origin
   ]

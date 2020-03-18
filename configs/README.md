@@ -1,1 +1,1 @@
-## Ansible config files get generated here
+## Config files get generated here

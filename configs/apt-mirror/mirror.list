@@ -1,0 +1,52 @@
+############# config ##################
+#
+set base_path    /mnt/mirror_storage
+#
+# set mirror_path  $base_path/mirror
+# set skel_path    $base_path/skel
+# set var_path     $base_path/var
+# set cleanscript $var_path/clean.sh
+set defaultarch  amd64
+# set postmirror_script $var_path/postmirror.sh
+set run_postmirror 0
+set nthreads     20
+set _tilde 0
+#
+############# end config ##############
+
+deb-amd64 http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
+deb-amd64 http://archive.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
+deb-amd64 http://archive.ubuntu.com/ubuntu bionic-updates main restricted universe multiverse
+deb-amd64 http://archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
+
+
+deb-ppc64el http://ports.ubuntu.com/ bionic main restricted universe multiverse
+deb-ppc64el http://ports.ubuntu.com/ bionic-security main restricted universe multiverse
+deb-ppc64el http://ports.ubuntu.com/ bionic-updates main restricted universe multiverse
+deb-ppc64el http://ports.ubuntu.com/ bionic-backports main restricted universe multiverse
+#deb-s390x http://ports.ubuntu.com/ bionic main restricted universe multiverse
+#deb-s390x http://ports.ubuntu.com/ bionic-security main restricted universe multiverse
+#deb-s390x http://ports.ubuntu.com/ bionic-updates main restricted universe multiverse
+
+#deb http://archive.ubuntu.com/ubuntu bionic-proposed main restricted universe multiverse
+#deb http://archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
+
+deb-src http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu bionic-updates main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu bionic-proposed main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
+
+#Docker
+#deb-amd64 https://download.docker.com/linux/ubuntu xenial stable
+#deb-ppc64el https://download.docker.com/linux/ubuntu xenial stable
+
+#Kubernetes
+#deb-amd64 http://apt.kubernetes.io/ kubernetes-xenial main
+#deb-ppc64el http://apt.kubernetes.io/ kubernetes-xenial main
+
+#Gluster FS
+deb-amd64 http://ppa.launchpad.net/gluster/glusterfs-4.1/ubuntu bionic main
+
+
+#clean http://archive.ubuntu.com/ubuntu
