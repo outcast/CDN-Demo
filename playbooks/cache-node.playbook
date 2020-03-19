@@ -5,7 +5,7 @@
   - name: Default playbook
     include: default.playbook
 
-  - name: Install Nginx Plus origin config
+  - name: Install Nginx Plus cache config
     copy:
       src: ../configs/nginx/cache.conf
       dest: /etc/nginx/conf.d

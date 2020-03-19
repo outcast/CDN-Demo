@@ -12,7 +12,7 @@ resource "digitalocean_droplet" "mirror_origin" {
   image  = "ubuntu-18-04-x64"
   name   = "mirror-origin"
   region = var.origin_zone
-  size   = "s-1vcpu-1gb"
+  size   = "s-4vcpu-8gb"
   ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
     key.id
   ]
