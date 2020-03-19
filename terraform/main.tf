@@ -1,21 +1,52 @@
-resource "digitalocean_volume" "mirror-storage" {
-  region                  = "nyc1"
-  name                    = "mirror-storage"
+
+resource "digitalocean_volume" "mirror_storage" {
+  region                  = var.origin_zone
+  name                    = "mirror_storage"
   size                    = 500
   initial_filesystem_type = "ext4"
   description             = "volume used for storing apt mirror"
 }
 
-# Create a new mirror-origin server in the nyc1 region
-resource "digitalocean_droplet" "mirror-origin" {
+# Create a new mirror_origin server in the defined origin_zone region
+resource "digitalocean_droplet" "mirror_origin" {
   image  = "ubuntu-18-04-x64"
-  name   = "mirror-origin"
-  region = "nyc1"
+  name   = "mirror_origin"
+  region = var.origin_zone
   size   = "s-1vcpu-1gb"
-  ssh_keys = [data.digitalocean_ssh_key.mysshkey.id]
+  ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
+    key.id
+  ]
 }
 
-resource "digitalocean_volume_attachment" "mirror-origin-volume" {
-  droplet_id = digitalocean_droplet.mirror-origin.id
-  volume_id  = digitalocean_volume.mirror-storage.id
+resource "digitalocean_volume_attachment" "mirror_origin_volume" {
+  droplet_id = digitalocean_droplet.mirror_origin.id
+  volume_id  = digitalocean_volume.mirror_storage.id
+}
+
+#### Caching Nodes
+resource "digitalocean_volume" "cache_storage" {
+  for_each = var.cache_zones
+  region                  = each.value
+  name                    = "cache_${each.value}_storage"
+  size                    = 500
+  initial_filesystem_type = "ext4"
+  description             = "volume used for storing apt mirror"
+}
+
+# Create caching servers in the defined cache_zones
+resource "digitalocean_droplet" "cache_nodes" {
+  for_each = var.cache_zones
+  image  = "ubuntu-18-04-x64"
+  name   = "cache_${each.value}"
+  region = each.value
+  size   = "s-1vcpu-1gb"
+  ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
+    key.id
+  ]
+}
+
+resource "digitalocean_volume_attachment" "cache_volume" {
+  for_each = var.cache_zones
+  droplet_id = digitalocean_droplet.cache_nodes["${each.value}"].id
+  volume_id  = digitalocean_volume.cache_storage["${each.value}"].id
 }

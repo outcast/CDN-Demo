@@ -1,6 +1,8 @@
-data "digitalocean_ssh_key" "mysshkey" {
-  name = "bigrig"
+data "digitalocean_ssh_key" "ssh_keys" {
+  for_each = var.ssh_keys
+  name = each.value
 }
+
 
 data "http" "myip" {
   url = "http://ipv4.icanhazip.com"
@@ -9,10 +11,10 @@ data "http" "myip" {
 data "template_file" "ansible_nodes_conf" {
   template = "${file("../templates/ansible_nodes.conf")}"
   depends_on = [
-    digitalocean_droplet.mirror-origin
+    digitalocean_droplet.mirror_origin
   ]
   vars = {
-    origin_public_ip = "${digitalocean_droplet.mirror-origin.ipv4_address}"
+    origin_public_ip = "${digitalocean_droplet.mirror_origin.ipv4_address}"
   }
 }
 
