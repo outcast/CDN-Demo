@@ -13,13 +13,16 @@ Author: James Jones <jam.jones@nginx.com>
 ### Setup
 1. Clone repo
 2. Copy your Nginx repo access cert and key to './certs'
-3. In './mirror-origin/data.tf' add the key name to `data "digitalocean_ssh_key" "mysshkey"`.
+3. In './terraform/variables.tf' add the key name to `data "digitalocean_ssh_key" "ssh_keys"`.
 
   Example:
 
   ```
-  data "digitalocean_ssh_key" "mysshkey" {
-    name = "mysshkey"
+  variable "ssh_keys" {
+    type = set(string)
+    default = [
+      "myKeyName"
+    ]
   }
   ```
 4. mkdir ~/.private
