@@ -1,7 +1,7 @@
 #terraform
 */.terraform
 *.tfstate*
-configs/*.conf
+configs/*/*.conf
 
 #certs and keys
 *.crt
