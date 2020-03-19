@@ -1,5 +1,5 @@
 ---
-- name: Setup Nginx origin mirror
+- name: Setup Nginx apt origin mirror
   hosts: origin
   tasks:
   - name: Default playbook
