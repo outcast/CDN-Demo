@@ -1,7 +1,7 @@
 
 resource "digitalocean_volume" "mirror_storage" {
   region                  = var.origin_zone
-  name                    = "mirror_storage"
+  name                    = "mirror-storage"
   size                    = 500
   initial_filesystem_type = "ext4"
   description             = "volume used for storing apt mirror"
@@ -10,7 +10,7 @@ resource "digitalocean_volume" "mirror_storage" {
 # Create a new mirror_origin server in the defined origin_zone region
 resource "digitalocean_droplet" "mirror_origin" {
   image  = "ubuntu-18-04-x64"
-  name   = "mirror_origin"
+  name   = "mirror-origin"
   region = var.origin_zone
   size   = "s-1vcpu-1gb"
   ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
@@ -27,9 +27,10 @@ resource "digitalocean_volume_attachment" "mirror_origin_volume" {
 resource "digitalocean_volume" "cache_storage" {
   for_each = var.cache_zones
   region                  = each.value
-  name                    = "cache_${each.value}_storage"
+  name                    = "cache-storage"
   size                    = 500
   initial_filesystem_type = "ext4"
+  initial_filesystem_label= "cache-storage"
   description             = "volume used for storing apt mirror"
 }
 
@@ -37,7 +38,7 @@ resource "digitalocean_volume" "cache_storage" {
 resource "digitalocean_droplet" "cache_nodes" {
   for_each = var.cache_zones
   image  = "ubuntu-18-04-x64"
-  name   = "cache_${each.value}"
+  name   = "cache-${each.value}"
   region = each.value
   size   = "s-1vcpu-1gb"
   ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:

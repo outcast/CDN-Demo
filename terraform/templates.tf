@@ -24,3 +24,12 @@ resource "null_resource" "nginx_origin_conf" {
     command = "echo '${data.template_file.nginx_origin_conf.rendered}' > ../configs/nginx/origin.conf"
   }
 }
+
+resource "null_resource" "nginx_cache_conf" {
+  triggers = {
+    template_rendered = data.template_file.nginx_cache_conf.rendered
+  }
+  provisioner "local-exec" {
+    command = "echo '${data.template_file.nginx_cache_conf.rendered}' > ../configs/nginx/cache.conf"
+  }
+}
