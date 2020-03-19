@@ -26,7 +26,8 @@ Author: James Jones <jam.jones@nginx.com>
 5. Create a file '~/.private/do_token' with mode '0600' and put your Digital Ocean token in it.
 
 ### To Deploy
-  `./deploy.sh`
+  1. `./deploy.sh`
+  2. Once it is complete ssh to origin and run `sudo apt-mirror` *note: it may take a while*
 
 ### To Destroy
   `./destroy.sh`
