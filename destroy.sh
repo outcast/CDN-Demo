@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 #Deploy Origin Server
-pushd ./mirror-origin/
+pushd ./terraform/
 make destroy
 popd
