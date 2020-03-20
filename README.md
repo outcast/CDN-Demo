@@ -6,7 +6,7 @@ Author: James Jones <jam.jones@nginx.com>
 
 ### Prerequisites
 - terraform
-- ansbile
+- ansible
 - Nginx Plus repo access cert and key
 - Digital Ocean Account with a ssh key imported
 
