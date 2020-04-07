@@ -14,16 +14,16 @@ set _tilde 0
 #
 ############# end config ##############
 
-deb-amd64 http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
-deb-amd64 http://archive.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
-deb-amd64 http://archive.ubuntu.com/ubuntu bionic-updates main restricted universe multiverse
-deb-amd64 http://archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
+deb-amd64 http://mirrors.digitalocean.com/ubuntu/ bionic main restricted universe multiverse
+deb-amd64 http://mirrors.digitalocean.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-amd64 http://mirrors.digitalocean.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-amd64 http://mirrors.digitalocean.com/ubuntu/ bionic-backports main restricted universe multiverse
 
 
-deb-ppc64el http://ports.ubuntu.com/ bionic main restricted universe multiverse
-deb-ppc64el http://ports.ubuntu.com/ bionic-security main restricted universe multiverse
-deb-ppc64el http://ports.ubuntu.com/ bionic-updates main restricted universe multiverse
-deb-ppc64el http://ports.ubuntu.com/ bionic-backports main restricted universe multiverse
+#deb-ppc64el http://ports.ubuntu.com/ bionic main restricted universe multiverse
+#deb-ppc64el http://ports.ubuntu.com/ bionic-security main restricted universe multiverse
+#deb-ppc64el http://ports.ubuntu.com/ bionic-updates main restricted universe multiverse
+#deb-ppc64el http://ports.ubuntu.com/ bionic-backports main restricted universe multiverse
 #deb-s390x http://ports.ubuntu.com/ bionic main restricted universe multiverse
 #deb-s390x http://ports.ubuntu.com/ bionic-security main restricted universe multiverse
 #deb-s390x http://ports.ubuntu.com/ bionic-updates main restricted universe multiverse
