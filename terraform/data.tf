@@ -51,3 +51,13 @@ data "template_file" "nginx_cache_conf" {
     origin_public_ip = "${digitalocean_droplet.mirror_origin.ipv4_address}"
   }
 }
+
+data "template_file" "nginx_lb_conf" {
+  template = "${file("../templates/nginx_lb.conf")}"
+  depends_on = [
+    digitalocean_droplet.cache_nodes
+  ]
+  vars = {
+    cache_nodes  = "${jsonencode(digitalocean_droplet.cache_nodes)}"
+  }
+}

@@ -21,3 +21,8 @@ variable "cache_zones" {
     "tor1"
   ]
 }
+
+variable "cache_node_count" {
+  type = number
+  default = 3
+}
