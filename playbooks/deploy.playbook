@@ -1,29 +1,20 @@
-- name: Setup Nginx on all nodes
+- name: Setting CDN
   hosts: all
   tasks:
   - name: Default playbook
     include: default.playbook
 
-- name: Setup Origins
-  hosts: origin
-  tasks:
   - name: Setup Mirror Origins
     include: mirror-origin.playbook
+    when: "'origin' is in group_names"
 
-- name: Setup Load Balancers
-  hosts: lb
-  tasks:
   - name: Setup Load Balancers
     include: lb-node.playbook
+    when: "'lb' is in group_names"
 
-- name: Setup Caches
-  hosts: cache
-  tasks:
   - name: Setup Caches
     include: cache-node.playbook
+    when: "'cache' is in group_names"
 
-- name: Setup Origins
-  hosts: all
-  tasks:
   - name: Reload Nginx
     include: nginx-reload.playbook
