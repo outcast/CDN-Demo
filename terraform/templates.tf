@@ -7,15 +7,6 @@ resource "null_resource" "ansible_nodes_conf" {
   }
 }
 
-resource "null_resource" "nginx_default_conf" {
-  triggers = {
-    template_rendered = data.template_file.nginx_default_conf.rendered
-  }
-  provisioner "local-exec" {
-    command = "echo '${data.template_file.nginx_default_conf.rendered}' > ../configs/nginx/default.conf"
-  }
-}
-
 resource "null_resource" "nginx_origin_conf" {
   triggers = {
     template_rendered = data.template_file.nginx_origin_conf.rendered

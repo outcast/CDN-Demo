@@ -28,16 +28,6 @@ data "template_file" "ansible_nodes_conf" {
   }
 }
 
-data "template_file" "nginx_default_conf" {
-  template = "${file("../templates/nginx_default.conf")}"
-  depends_on = [
-    data.http.myip
-  ]
-  vars = {
-    my_ip = "${chomp(data.http.myip.body)}"
-  }
-}
-
 data "template_file" "nginx_origin_conf" {
   template = "${file("../templates/nginx_origin.conf")}"
   depends_on = [
