@@ -1,0 +1,29 @@
+- name: Setup Nginx on all nodes
+  hosts: all
+  tasks:
+  - name: Default playbook
+    include: default.playbook
+
+- name: Setup Origins
+  hosts: origin
+  tasks:
+  - name: Setup Mirror Origins
+    include: mirror-origin.playbook
+
+- name: Setup Load Balancers
+  hosts: lb
+  tasks:
+  - name: Setup Load Balancers
+    include: lb-node.playbook
+
+- name: Setup Caches
+  hosts: cache
+  tasks:
+  - name: Setup Caches
+    include: cache-node.playbook
+
+- name: Setup Origins
+  hosts: all
+  tasks:
+  - name: Reload Nginx
+    include: nginx-reload.playbook

@@ -34,11 +34,38 @@ resource "null_resource" "nginx_cache_conf" {
   }
 }
 
-resource "null_resource" "nginx_lb_conf" {
+resource "null_resource" "nginx_nyc1_lb_conf" {
   triggers = {
-    template_rendered = data.template_file.nginx_lb_conf.rendered
+    template_rendered = data.template_file.nginx_nyc1_lb_conf.rendered
   }
   provisioner "local-exec" {
-    command = "echo '${data.template_file.nginx_lb_conf.rendered}' > ../configs/nginx/lb.conf"
+    command = "echo '${data.template_file.nginx_nyc1_lb_conf.rendered}' > ../configs/nginx/nyc1_lb.conf"
+  }
+}
+
+resource "null_resource" "nginx_nyc3_lb_conf" {
+  triggers = {
+    template_rendered = data.template_file.nginx_nyc3_lb_conf.rendered
+  }
+  provisioner "local-exec" {
+    command = "echo '${data.template_file.nginx_nyc3_lb_conf.rendered}' > ../configs/nginx/nyc3_lb.conf"
+  }
+}
+
+resource "null_resource" "nginx_lon1_lb_conf" {
+  triggers = {
+    template_rendered = data.template_file.nginx_lon1_lb_conf.rendered
+  }
+  provisioner "local-exec" {
+    command = "echo '${data.template_file.nginx_lon1_lb_conf.rendered}' > ../configs/nginx/lon1_lb.conf"
+  }
+}
+
+resource "null_resource" "nginx_tor1_lb_conf" {
+  triggers = {
+    template_rendered = data.template_file.nginx_tor1_lb_conf.rendered
+  }
+  provisioner "local-exec" {
+    command = "echo '${data.template_file.nginx_tor1_lb_conf.rendered}' > ../configs/nginx/tor1_lb.conf"
   }
 }

@@ -24,10 +24,40 @@ resource "digitalocean_volume_attachment" "mirror_origin_volume" {
 }
 
 #### Caching Nodes
-resource "digitalocean_volume" "cache_storage" {
-  for_each = var.cache_zones
-  region                  = each.value
-  name                    = "cache-storage"
+resource "digitalocean_volume" "nyc1_cache_storage" {
+  count = var.cache_node_count
+  region                  = "nyc1"
+  name                    = "nyc1-cache-storage-${count.index}"
+  size                    = 500
+  initial_filesystem_type = "ext4"
+  initial_filesystem_label= "cache-storage"
+  description             = "volume used for storing apt mirror"
+}
+
+resource "digitalocean_volume" "nyc3_cache_storage" {
+  count = var.cache_node_count
+  region                  = "nyc3"
+  name                    = "nyc3-cache-storage-${count.index}"
+  size                    = 500
+  initial_filesystem_type = "ext4"
+  initial_filesystem_label= "cache-storage"
+  description             = "volume used for storing apt mirror"
+}
+
+resource "digitalocean_volume" "lon1_cache_storage" {
+  count = var.cache_node_count
+  region                  = "lon1"
+  name                    = "lon1-cache-storage-${count.index}"
+  size                    = 500
+  initial_filesystem_type = "ext4"
+  initial_filesystem_label= "cache-storage"
+  description             = "volume used for storing apt mirror"
+}
+
+resource "digitalocean_volume" "tor1_cache_storage" {
+  count = var.cache_node_count
+  region                  = "tor1"
+  name                    = "tor1-cache-storage-${count.index}"
   size                    = 500
   initial_filesystem_type = "ext4"
   initial_filesystem_label= "cache-storage"
@@ -50,7 +80,7 @@ resource "digitalocean_droplet" "lb_nodes" {
 resource "digitalocean_droplet" "nyc1_cache_nodes" {
   count = var.cache_node_count
   image  = "ubuntu-18-04-x64"
-  name   = "cache-ny1-${count.value}"
+  name   = "cache-nyc1-${count.index}"
   region = "nyc1"
   private_networking = true
   size   = "s-1vcpu-2gb"
@@ -59,11 +89,11 @@ resource "digitalocean_droplet" "nyc1_cache_nodes" {
   ]
 }
 
-resource "digitalocean_droplet" "nyc1_cache_nodes" {
+resource "digitalocean_droplet" "nyc3_cache_nodes" {
   count = var.cache_node_count
   image  = "ubuntu-18-04-x64"
-  name   = "cache-ny1-${count.value}"
-  region = "nyc1"
+  name   = "cache-nyc3-${count.index}"
+  region = "nyc3"
   private_networking = true
   size   = "s-1vcpu-2gb"
   ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
@@ -71,11 +101,11 @@ resource "digitalocean_droplet" "nyc1_cache_nodes" {
   ]
 }
 
-resource "digitalocean_droplet" "nyc1_cache_nodes" {
+resource "digitalocean_droplet" "lon1_cache_nodes" {
   count = var.cache_node_count
   image  = "ubuntu-18-04-x64"
-  name   = "cache-ny1-${count.value}"
-  region = "nyc1"
+  name   = "cache-lon1-${count.index}"
+  region = "lon1"
   private_networking = true
   size   = "s-1vcpu-2gb"
   ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
@@ -83,11 +113,11 @@ resource "digitalocean_droplet" "nyc1_cache_nodes" {
   ]
 }
 
-resource "digitalocean_droplet" "nyc1_cache_nodes" {
+resource "digitalocean_droplet" "tor1_cache_nodes" {
   count = var.cache_node_count
   image  = "ubuntu-18-04-x64"
-  name   = "cache-ny1-${count.value}"
-  region = "nyc1"
+  name   = "cache-tor1-${count.index}"
+  region = "tor1"
   private_networking = true
   size   = "s-1vcpu-2gb"
   ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
@@ -95,33 +125,26 @@ resource "digitalocean_droplet" "nyc1_cache_nodes" {
   ]
 }
 
-resource "digitalocean_droplet" "nyc1_cache_nodes" {
+resource "digitalocean_volume_attachment" "nyc1_cache_volume" {
   count = var.cache_node_count
-  image  = "ubuntu-18-04-x64"
-  name   = "cache-ny1-${count.value}"
-  region = "nyc1"
-  private_networking = true
-  size   = "s-1vcpu-2gb"
-  ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
-    key.id
-  ]
+  droplet_id = digitalocean_droplet.nyc1_cache_nodes[count.index].id
+  volume_id  = digitalocean_volume.nyc1_cache_storage[count.index].id
 }
 
-#resource "digitalocean_droplet" "cache_nodes" {
-#  count = var.cache_node_count
-#  for zone in var.cache_zones:
-#  image  = "ubuntu-18-04-x64"
-#  name   = "cache-${count.value}"
-#  region = each.value
-#  private_networking = true
-#  size   = "s-1vcpu-2gb"
-#  ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
-#    key.id
-#  ]
-#}
+resource "digitalocean_volume_attachment" "nyc3_cache_volume" {
+  count = var.cache_node_count
+  droplet_id = digitalocean_droplet.nyc3_cache_nodes[count.index].id
+  volume_id  = digitalocean_volume.nyc3_cache_storage[count.index].id
+}
 
-#resource "digitalocean_volume_attachment" "cache_volume" {
-#  for_each = var.cache_zones
-#  droplet_id = digitalocean_droplet.cache_nodes["${each.value}"].id
-#  volume_id  = digitalocean_volume.cache_storage["${each.value}"].id
-#}
+resource "digitalocean_volume_attachment" "lon1_cache_volume" {
+  count = var.cache_node_count
+  droplet_id = digitalocean_droplet.lon1_cache_nodes[count.index].id
+  volume_id  = digitalocean_volume.lon1_cache_storage[count.index].id
+}
+
+resource "digitalocean_volume_attachment" "tor1_cache_volume" {
+  count = var.cache_node_count
+  droplet_id = digitalocean_droplet.tor1_cache_nodes[count.index].id
+  volume_id  = digitalocean_volume.tor1_cache_storage[count.index].id
+}

@@ -1,15 +1,8 @@
 ---
-- name: Setup Nginx apt cache node
-  hosts: cache
-  tasks:
-  - name: Default playbook
-    include: default.playbook
-
-  - name: Install Nginx Plus cache config
-    copy:
-      src: ../configs/nginx/cache.conf
-      dest: /etc/nginx/conf.d
-      mode: '0644'
-
-  - name: Default playbook
-    include: nginx-reload.playbook
+- name: Install Nginx Plus cache config
+  template:
+    src: ../configs/nginx/cache.conf
+    dest: /etc/nginx/conf.d
+    mode: '0644'
+  tags:
+    - "config"

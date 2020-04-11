@@ -1,34 +1,25 @@
 ---
-- name: Setup Nginx apt origin mirror
-  hosts: origin
-  tasks:
-  - name: Default playbook
-    include: default.playbook
+- name: Install apt-mirror
+  package:
+    name:
+    - apt-mirror
+    state: latest
 
-  - name: Install apt-mirror
-    package:
-      name:
-      - apt-mirror
-      state: latest
+- name: Install Nginx Plus origin config
+  copy:
+    src: ../configs/nginx/origin.conf
+    dest: /etc/nginx/conf.d
+    mode: '0644'
 
-  - name: Install Nginx Plus origin config
-    copy:
-      src: ../configs/nginx/origin.conf
-      dest: /etc/nginx/conf.d
-      mode: '0644'
+- name: Install apt-mirror config
+  copy:
+    src: ../configs/apt-mirror/mirror.list
+    dest: /etc/apt
+    mode: '0644'
 
-  - name: Default playbook
-    include: nginx-reload.playbook
-
-  - name: Install apt-mirror config
-    copy:
-      src: ../configs/apt-mirror/mirror.list
-      dest: /etc/apt
-      mode: '0644'
-
-  - name: Setup apt-mirror crontab
-    cron:
-      name: "run apt-mirror"
-      minute: "0"
-      hour: "0"
-      job: "apt-mirror"
+- name: Setup apt-mirror crontab
+  cron:
+    name: "run apt-mirror"
+    minute: "0"
+    hour: "0"
+    job: "apt-mirror"

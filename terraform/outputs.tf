@@ -10,9 +10,30 @@ output "mirror_origin_ipv4_private" {
   value = digitalocean_droplet.mirror_origin.ipv4_address_private
 }
 
-output "cache_nodes_ipv4" {
+output "nyc1_cache_nodes_ipv4" {
   value = {
-    for node in digitalocean_droplet.cache_nodes:
-    node.region => node.ipv4_address
+    for node in digitalocean_droplet.nyc1_cache_nodes:
+    node.id => node.ipv4_address
+  }
+}
+
+output "nyc3_cache_nodes_ipv4" {
+  value = {
+    for node in digitalocean_droplet.nyc3_cache_nodes:
+    node.id => node.ipv4_address
+  }
+}
+
+output "lon1_cache_nodes_ipv4" {
+  value = {
+    for node in digitalocean_droplet.lon1_cache_nodes:
+    node.id => node.ipv4_address
+  }
+}
+
+output "tor1_cache_nodes_ipv4" {
+  value = {
+    for node in digitalocean_droplet.tor1_cache_nodes:
+    node.id => node.ipv4_address
   }
 }
