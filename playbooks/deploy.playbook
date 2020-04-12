@@ -1,4 +1,4 @@
-- name: Setting CDN
+- name: Setting Up CDN
   hosts: all
   tasks:
   - name: Default playbook
