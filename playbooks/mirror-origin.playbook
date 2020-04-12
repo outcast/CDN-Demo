@@ -23,3 +23,8 @@
     minute: "0"
     hour: "0"
     job: "apt-mirror"
+
+- name: Seed Origin
+  command: apt-mirror
+  async: 360
+  poll: 5
