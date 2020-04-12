@@ -7,44 +7,19 @@
     - ca-certificates
     state: latest
 
-- name: Make Nginx Plus ssl cert dir
-  file:
-    path: /etc/ssl/nginx
-    state: directory
-    mode: '0755'
 
-- name: Install Nginx Plus Repo certs
-  copy:
-    src: "{{ item }}"
-    dest: /etc/ssl/nginx
-    mode: '0644'
-  with_fileglob:
-    - ../certs/nginx-repo*
-
-- name: Install Nginx Plus apt key
+- name: Install Nginx apt key
   apt_key:
     url: http://nginx.org/keys/nginx_signing.key
     state: present
 
-- name: Download Nginx Plus apt config
-  get_url:
-    url: https://cs.nginx.com/static/files/90nginx
-    dest: /etc/apt/apt.conf.d
-    mode: '0440'
-
-- name: Add Nginx Plus Repo
+- name: Add Nginx Repo
   apt_repository:
-    repo: deb https://plus-pkgs.nginx.com/ubuntu {{ ansible_distribution_release }} nginx-plus
+    repo: deb https://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx
     state: present
 
-- name: Install Nginx Plus
+- name: Install Nginx
   package:
     name:
-    - nginx-plus
+    - nginx
     state: latest
-
-- name: Install Nginx Plus default config
-  copy:
-    src: ../configs/nginx/default.conf
-    dest: /etc/nginx/conf.d
-    mode: '0644'

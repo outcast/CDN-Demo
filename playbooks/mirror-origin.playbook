@@ -5,10 +5,10 @@
     - apt-mirror
     state: latest
 
-- name: Install Nginx Plus origin config
+- name: Install Nginx origin config
   copy:
     src: ../configs/nginx/origin.conf
-    dest: /etc/nginx/conf.d
+    dest: /etc/nginx/conf.d/default.conf
     mode: '0644'
 
 - name: Install apt-mirror config

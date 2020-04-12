@@ -1,8 +1,8 @@
 ---
-- name: Install Nginx Plus cache config
+- name: Install Nginx cache config
   template:
     src: ../configs/nginx/cache.conf
-    dest: /etc/nginx/conf.d
+    dest: /etc/nginx/conf.d/default.conf
     mode: '0644'
   tags:
     - "config"
