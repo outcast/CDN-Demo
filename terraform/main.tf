@@ -2,7 +2,7 @@
 resource "digitalocean_volume" "mirror_storage" {
   region                  = var.origin_zone
   name                    = "mirror-storage"
-  size                    = 500
+  size                    = var.cache_disk_size
   initial_filesystem_type = "ext4"
   description             = "volume used for storing apt mirror"
 }
@@ -12,7 +12,7 @@ resource "digitalocean_droplet" "mirror_origin" {
   image  = "ubuntu-18-04-x64"
   name   = "mirror-origin"
   region = var.origin_zone
-  size   = "s-4vcpu-8gb"
+  size   = "s-1vcpu-2gb"
   ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
     key.id
   ]
@@ -28,7 +28,7 @@ resource "digitalocean_volume" "nyc1_cache_storage" {
   count = var.cache_node_count
   region                  = "nyc1"
   name                    = "nyc1-cache-storage-${count.index}"
-  size                    = 500
+  size                    = var.cache_disk_size
   initial_filesystem_type = "ext4"
   initial_filesystem_label= "cache-storage"
   description             = "volume used for storing apt mirror"
@@ -38,7 +38,7 @@ resource "digitalocean_volume" "nyc3_cache_storage" {
   count = var.cache_node_count
   region                  = "nyc3"
   name                    = "nyc3-cache-storage-${count.index}"
-  size                    = 500
+  size                    = var.cache_disk_size
   initial_filesystem_type = "ext4"
   initial_filesystem_label= "cache-storage"
   description             = "volume used for storing apt mirror"
@@ -48,7 +48,7 @@ resource "digitalocean_volume" "lon1_cache_storage" {
   count = var.cache_node_count
   region                  = "lon1"
   name                    = "lon1-cache-storage-${count.index}"
-  size                    = 500
+  size                    = var.cache_disk_size
   initial_filesystem_type = "ext4"
   initial_filesystem_label= "cache-storage"
   description             = "volume used for storing apt mirror"
@@ -58,7 +58,7 @@ resource "digitalocean_volume" "tor1_cache_storage" {
   count = var.cache_node_count
   region                  = "tor1"
   name                    = "tor1-cache-storage-${count.index}"
-  size                    = 500
+  size                    = var.cache_disk_size
   initial_filesystem_type = "ext4"
   initial_filesystem_label= "cache-storage"
   description             = "volume used for storing apt mirror"
@@ -71,7 +71,7 @@ resource "digitalocean_droplet" "lb_nodes" {
   name   = "lb-${each.value}"
   region = each.value
   private_networking = true
-  size   = "s-2vcpu-4gb"
+  size   = "s-1vcpu-2gb"
   ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
     key.id
   ]

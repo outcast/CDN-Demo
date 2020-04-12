@@ -26,3 +26,8 @@ variable "cache_node_count" {
   type = number
   default = 3
 }
+
+variable "cache_disk_size" {
+  type = number
+  default = 2
+}
