@@ -1,6 +1,6 @@
 ---
 - name: Install Cache LB config
-  copy:
+  template:
     src: ../configs/nginx/{{ hostvars[inventory_hostname].region }}_lb.conf
     dest: /etc/nginx/conf.d/default.conf
     mode: '0644'

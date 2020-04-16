@@ -1,8 +1,12 @@
 #terraform
 */.terraform
 *.tfstate*
+
 configs/*/*.conf
+#configs/*/*.hcl
 
 #certs and keys
 *.crt
 *.key
+
+notes.txt

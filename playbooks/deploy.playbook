@@ -3,6 +3,7 @@
   tasks:
   - name: Default playbook
     include: default.playbook
+    when: "'consul' is not in group_names"
 
   - name: Setup Mirror Origins
     include: mirror-origin.playbook
@@ -12,9 +13,14 @@
     include: lb-node.playbook
     when: "'lb' is in group_names"
 
+  - name: Setup Consul Servers
+    include: consul-node.playbook
+    when: "'consul' is in group_names"
+
   - name: Setup Caches
     include: cache-node.playbook
     when: "'cache' is in group_names"
 
   - name: Reload Nginx
     include: nginx-reload.playbook
+    when: "'consul' is not in group_names"

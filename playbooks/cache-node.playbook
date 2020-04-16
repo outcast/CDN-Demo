@@ -6,3 +6,36 @@
     mode: '0644'
   tags:
     - "config"
+
+- name: Install Consul Dependancies
+  package:
+    name:
+    - pipexec
+    state: latest
+
+- name: Install consul agent
+  apt:
+    deb: http://ftp.us.debian.org/debian/pool/main/c/consul/consul_1.7.2+dfsg1-1_amd64.deb
+    state: present
+
+#- name: Join Consul Cluster
+#  command: consul join {{ hostvars[inventory_hostname].consul }}
+
+- name: Install Consul Config
+  template:
+    src: ../configs/consul/consul_cache.json
+    dest: /etc/consul.d/consul_cache.json
+    mode: '0644'
+  tags:
+    - "config"
+
+- name: Make consul data dir
+  file:
+    path: /opt/consul
+    state: directory
+    mode: '0755'
+
+- name: Restart Consul
+  service:
+    name: consul
+    state: restarted

@@ -77,6 +77,20 @@ resource "digitalocean_droplet" "lb_nodes" {
   ]
 }
 
+# Create caching servers in the defined cache_zones
+resource "digitalocean_droplet" "consul_nodes" {
+  for_each = var.cache_zones
+  image  = "ubuntu-18-04-x64"
+  name   = "consul-${each.value}"
+  region = each.value
+  private_networking = true
+  size   = "s-1vcpu-2gb"
+  ssh_keys = [for key in data.digitalocean_ssh_key.ssh_keys:
+    key.id
+  ]
+}
+
+
 resource "digitalocean_droplet" "nyc1_cache_nodes" {
   count = var.cache_node_count
   image  = "ubuntu-18-04-x64"

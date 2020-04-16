@@ -16,11 +16,13 @@ data "template_file" "ansible_nodes_conf" {
     digitalocean_droplet.nyc3_cache_nodes,
     digitalocean_droplet.lon1_cache_nodes,
     digitalocean_droplet.tor1_cache_nodes,
-    digitalocean_droplet.lb_nodes
+    digitalocean_droplet.lb_nodes,
+    digitalocean_droplet.consul_nodes
   ]
   vars = {
     origin_public_ip = "${digitalocean_droplet.mirror_origin.ipv4_address}"
     lb_nodes = "${jsonencode(digitalocean_droplet.lb_nodes)}"
+    consul_nodes = "${jsonencode(digitalocean_droplet.consul_nodes)}"
     nyc1_cache_nodes  = "${jsonencode(digitalocean_droplet.nyc1_cache_nodes)}"
     nyc3_cache_nodes  = "${jsonencode(digitalocean_droplet.nyc3_cache_nodes)}"
     lon1_cache_nodes  = "${jsonencode(digitalocean_droplet.lon1_cache_nodes)}"

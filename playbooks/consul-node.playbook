@@ -1,0 +1,48 @@
+---
+- name: Run apt-get update
+  apt:
+    update_cache: yes
+
+- name: Install Ansible dependancies
+  package:
+    name:
+    - python3-pip
+    state: latest
+
+- name: Install Docker apt key
+  apt_key:
+    url:  https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repo
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+
+- name: Install Docker CE
+  package:
+    name:
+    - docker-ce
+    state: latest
+
+- name: Start service docker if not started
+  service:
+    name: docker
+    state: started
+
+- name: Install Python3 Docker Module
+  pip:
+    name: docker
+    executable: pip3
+
+- name: Remove Stale Consul Container
+  docker_container:
+    name: local_consul
+    state: absent
+
+- name: Start Consul Container
+  docker_container:
+    name: local_consul
+    image: consul:1.7.2
+    network_mode: host
+    command: agent -server -datacenter="{{ hostvars[inventory_hostname].region }}" -bind="{{ hostvars[inventory_hostname].private_ip }}" -client="0.0.0.0" -bootstrap-expect=1 -ui=true
