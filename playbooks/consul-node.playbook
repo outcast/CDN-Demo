@@ -45,4 +45,4 @@
     name: local_consul
     image: consul:1.7.2
     network_mode: host
-    command: agent -server -datacenter="{{ hostvars[inventory_hostname].region }}" -bind="{{ hostvars[inventory_hostname].private_ip }}" -client="0.0.0.0" -bootstrap-expect=1 -ui=true
+    command: agent -server -datacenter="{{ hostvars[inventory_hostname].region }}" -serf-wan-bind="{{ inventory_hostname }}" -bind="{{ hostvars[inventory_hostname].private_ip }}" -client="0.0.0.0" -bootstrap-expect=1 -ui=true
