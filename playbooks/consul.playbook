@@ -1,0 +1,26 @@
+- name: Run apt-get update
+  apt:
+    update_cache: yes
+
+- name: Install Consul Dependancies
+  package:
+    name:
+    - python3-pip
+    - pipexec
+    state: latest
+
+- name: Install consul agent
+  apt:
+    deb: http://ftp.us.debian.org/debian/pool/main/c/consul/consul_1.7.2+dfsg1-1_amd64.deb
+    state: present
+
+- name: Make consul data dir
+  file:
+    path: /opt/consul
+    state: directory
+    mode: '0755'
+
+- name: Install Python3 Consul Module
+  pip:
+    name: python-consul
+    executable: pip3

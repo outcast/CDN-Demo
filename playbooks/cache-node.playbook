@@ -7,25 +7,6 @@
   tags:
     - "config"
 
-- name: Run apt-get update
-  apt:
-    update_cache: yes
-
-- name: Install Consul Dependancies
-  package:
-    name:
-    - python3-pip
-    - pipexec
-    state: latest
-
-- name: Install consul agent
-  apt:
-    deb: http://ftp.us.debian.org/debian/pool/main/c/consul/consul_1.7.2+dfsg1-1_amd64.deb
-    state: present
-
-#- name: Join Consul Cluster
-#  command: consul join {{ hostvars[inventory_hostname].consul }}
-
 - name: Install Consul Config
   template:
     src: ../configs/consul/consul_cache.json
@@ -34,27 +15,8 @@
   tags:
     - "config"
 
-- name: Make consul data dir
-  file:
-    path: /opt/consul
-    state: directory
-    mode: '0755'
-
-- name: Make consul data dir
-  file:
-    path: /opt/consul-template
-    state: directory
-    mode: '0755'
-
-- name: Restart Consul
-  service:
-    name: consul
-    state: restarted
-
-- name: Install Python3 Consul Module
-  pip:
-    name: python-consul
-    executable: pip3
+- name: Restart Consule
+  include: restart-consul.playbook
 
 - name: register cache service with an http check
   consul:
@@ -63,9 +25,3 @@
     interval: "10s"
     timeout: "1s"
     http: http://localhost:8000/health
-
-- name: Get consul-template tarball
-  unarchive:
-    src: https://releases.hashicorp.com/consul-template/0.24.1/consul-template_0.24.1_linux_amd64.tgz
-    dest: /usr/bin
-    remote_src: yes

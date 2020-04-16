@@ -1,0 +1,4 @@
+- name: Restart Consul Template
+  service:
+    name: consul-template
+    state: restarted
