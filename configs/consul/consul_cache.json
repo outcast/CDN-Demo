@@ -14,28 +14,5 @@
   "verify_incoming_https": false,
   "ports": {
       "http": 8500
-  },
-  "services":[
-    {
-      "id": "cache",
-      "name": "cache",
-      "tags": [
-        "cache"
-      ],
-      "address": "{{ hostvars[inventory_hostname].private_ip }}",
-      "port": 80,
-      "check": {
-        "id": "cache",
-        "name": "HTTP Health Check on port 8000",
-        "http": "http://localhost:8000/health",
-        "method": "POST",
-        "header": {
-          "Content-Type": ["application/json"]
-        },
-        "body": "{\"method\":\"health\"}",
-        "interval": "10s",
-        "timeout": "1s"
-      }
-    }
-  ]
+  }
 }

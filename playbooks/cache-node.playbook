@@ -7,9 +7,14 @@
   tags:
     - "config"
 
+- name: Run apt-get update
+  apt:
+    update_cache: yes
+
 - name: Install Consul Dependancies
   package:
     name:
+    - python3-pip
     - pipexec
     state: latest
 
@@ -39,3 +44,16 @@
   service:
     name: consul
     state: restarted
+
+- name: Install Python3 Consul Module
+  pip:
+    name: python-consul
+    executable: pip3
+
+- name: register cache service with an http check
+  consul:
+    service_name: cache
+    service_port: 80
+    interval: "10s"
+    timeout: "1s"
+    http: http://localhost:8000/health
