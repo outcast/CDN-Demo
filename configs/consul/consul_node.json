@@ -1,15 +1,15 @@
 {
   "datacenter": "{{ hostvars[inventory_hostname].region }}",
   "data_dir": "/opt/consul",
+  "server": true,
   "bind_addr": "{{ inventory_hostname }}",
   "client_addr": "0.0.0.0",
-  "server": false,
+  "advertise_addr_wan": "{{ inventory_hostname }}",
+  "serf_wan": "{{ inventory_hostname }}",
+  "bootstrap_expect": 1,
+  "translate_wan_addrs": true,
   "ui": true,
   "log_level": "warn",
-  "translate_wan_addrs": true,
-  "retry_join": [
-    "{{ hostvars[inventory_hostname].consul }}"
-  ],
   "encrypt_verify_incoming": false,
   "encrypt_verify_outgoing": false,
   "verify_incoming": false,

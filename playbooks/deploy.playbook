@@ -8,7 +8,8 @@
   - name: Setup Consul
     include: consul.playbook
     when: ("'lb' is in group_names") or
-          ("'cache' is in group_names")
+          ("'cache' is in group_names") or
+          ("'consul' is in group_names")
 
   - name: Setup Consul Template
     include: consul-template.playbook

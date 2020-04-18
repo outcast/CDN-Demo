@@ -12,6 +12,7 @@
     mode: '0644'
   tags:
     - "config"
+    - consul
 
 - name: Install Consul Config
   template:
@@ -20,9 +21,13 @@
     mode: '0644'
   tags:
     - "config"
+    - consul
 
 - name: Restart Consule
   include: restart-consul.playbook
+  tags:
+    - "config"
+    - consul
 
 - name: register lb service with an http check
   consul:
@@ -30,12 +35,21 @@
     service_port: 80
     interval: "10s"
     timeout: "1s"
-    http: http://localhost/ubuntu
+    http: "http://{{ hostvars[inventory_hostname].private_ip }}/ubuntu/"
+  tags:
+    - "config"
+    - consul
 
 - name: remove stale lb config
   file:
     path: /etc/nginx/conf.d/default.config
     state: absent
+  tags:
+    - "config"
+    - consul
 
 - name: Restart Consule Template
   include: restart-consul-template.playbook
+  tags:
+    - "config"
+    - consul

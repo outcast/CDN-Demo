@@ -1,18 +1,17 @@
 {
   "datacenter": "{{ hostvars[inventory_hostname].region }}",
   "data_dir": "/opt/consul",
-  "bind_addr": "{{ hostvars[inventory_hostname].private_ip }} ",
+  "bind_addr": "{{ inventory_hostname }}",
+  "client_addr": "0.0.0.0",
   "server": false,
   "ui": true,
   "log_level": "warn",
+  "translate_wan_addrs": true,
   "retry_join": [
     "{{ hostvars[inventory_hostname].consul }}"
   ],
   "encrypt_verify_incoming": false,
   "encrypt_verify_outgoing": false,
   "verify_incoming": false,
-  "verify_incoming_https": false,
-  "ports": {
-      "http": 8500
-  }
+  "verify_incoming_https": false
 }
