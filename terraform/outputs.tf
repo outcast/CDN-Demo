@@ -41,6 +41,6 @@ output "tor1_cache_nodes_ipv4" {
 output "consul_nodes_ipv4" {
   value = {
     for node in digitalocean_droplet.consul_nodes:
-    node.id => node.ipv4_address
+    node.region => node.ipv4_address
   }
 }
