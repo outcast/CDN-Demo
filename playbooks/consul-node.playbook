@@ -8,6 +8,12 @@
     - "config"
     - consul
 
+- name: Install jq tool
+  package:
+    name:
+    - jq
+    state: latest
+
 - name: Restart Consul
   include: restart-consul.playbook
   tags:
