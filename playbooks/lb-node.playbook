@@ -1,18 +1,11 @@
 ---
-- name: Install Cache LB config
+- name: Install Nginx lb config
   template:
     src: ../templates/nginx_lb.conf
-    dest: /opt/consul-template/nginx_lb.ctmpl
-    mode: '0644'
-
-- name: Install Consul Template Config
-  copy:
-    src: ../configs/consul/nginx_lb.conf
-    dest: /opt/consul-template/nginx_lb.conf
+    dest: /etc/nginx/conf.d/lb.conf
     mode: '0644'
   tags:
-    - "config"
-    - consul
+    - config
 
 - name: Install Consul Config
   template:
@@ -20,13 +13,13 @@
     dest: /etc/consul.d/consul_lb.json
     mode: '0644'
   tags:
-    - "config"
+    - config
     - consul
 
 - name: Restart Consule
   include: restart-consul.playbook
   tags:
-    - "config"
+    - config
     - consul
 
 - name: register lb service with an http check
@@ -41,7 +34,7 @@
       - v0.1
     http: "http://{{ hostvars[inventory_hostname].private_ip }}/ubuntu/"
   tags:
-    - "config"
+    - config
     - consul
 
 - name: remove stale lb config
@@ -49,11 +42,6 @@
     path: /etc/nginx/conf.d/default.config
     state: absent
   tags:
-    - "config"
+    - config
     - consul
 
-- name: Restart Consule Template
-  include: restart-consul-template.playbook
-  tags:
-    - "config"
-    - consul

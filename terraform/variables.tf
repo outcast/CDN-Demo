@@ -3,7 +3,8 @@ variable "do_token" {}
 variable "ssh_keys" {
   type = set(string)
   default = [
-    "bigrig"
+    "bigrig",
+    "docker host"
   ]
 }
 

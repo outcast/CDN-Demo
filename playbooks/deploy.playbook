@@ -11,10 +11,6 @@
           ("'cache' is in group_names") or
           ("'consul' is in group_names")
 
-  - name: Setup Consul Template
-    include: consul-template.playbook
-    when: "'lb' is in group_names"
-
   - name: Setup Mirror Origins
     include: mirror-origin.playbook
     when: "'origin' is in group_names"
@@ -35,4 +31,4 @@
     include: nginx-reload.playbook
     when:
     - "'consul' is not in group_names"
-    - "'lb' is not in group_names"
+

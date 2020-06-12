@@ -3,3 +3,5 @@
   service:
     name: nginx
     state: reloaded
+  tags:
+    - config
